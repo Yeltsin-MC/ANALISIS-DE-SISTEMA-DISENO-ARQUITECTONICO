@@ -533,3 +533,79 @@ graph TB
 
 **Descripción:**  
 Este diagrama ilustra las capas lógicas de la arquitectura. El frontend web se comunica mediante HTTPS con el balanceador de carga, que distribuye las solicitudes entre múltiples instancias del backend. Cada instancia del backend contiene todos los módulos funcionales (monolito modular) y accede a PostgreSQL para operaciones transaccionales, Redis para caché/sesiones, y RabbitMQ para tareas asíncronas procesadas por workers.
+
+---
+
+### 13.3. Diagrama de Despliegue Escalable (Kubernetes)
+
+```mermaid
+graph TB
+    subgraph "Kubernetes Cluster"
+        subgraph "Ingress"
+            ING[Nginx Ingress<br/>Controller]
+        end
+        
+        subgraph "Backend Deployment (2-10 réplicas)"
+            POD1[Backend Pod 1]
+            POD2[Backend Pod 2]
+            PODN[Backend Pod N]
+        end
+        
+        subgraph "Services"
+            PGSVC[PostgreSQL<br/>Service]
+            RDSVC[Redis<br/>Service]
+            MQSVC[RabbitMQ<br/>Service]
+        end
+        
+        subgraph "Persistent Storage"
+            PV[(Persistent<br/>Volume<br/>PostgreSQL)]
+        end
+        
+        subgraph "Worker Deployment"
+            WORK1[Worker Pod 1]
+            WORK2[Worker Pod 2]
+        end
+        
+        subgraph "Monitoring"
+            PROM[Prometheus]
+            GRAF[Grafana]
+        end
+    end
+    
+    USERS[Usuarios] -->|HTTPS| ING
+    ING --> POD1
+    ING --> POD2
+    ING --> PODN
+    POD1 --> PGSVC
+    POD2 --> PGSVC
+    PODN --> PGSVC
+    POD1 --> RDSVC
+    POD2 --> RDSVC
+    PODN --> RDSVC
+    POD1 --> MQSVC
+    POD2 --> MQSVC
+    PODN --> MQSVC
+    PGSVC --> PV
+    MQSVC --> WORK1
+    MQSVC --> WORK2
+    POD1 -.->|métricas| PROM
+    POD2 -.->|métricas| PROM
+    PODN -.->|métricas| PROM
+    PROM --> GRAF
+    
+    style ING fill:#fff4e1
+    style POD1 fill:#e1ffe1
+    style POD2 fill:#e1ffe1
+    style PODN fill:#e1ffe1
+    style PGSVC fill:#f0e1ff
+    style RDSVC fill:#ffe1f5
+    style MQSVC fill:#e1ffe1
+    style PV fill:#d0d0d0
+    style WORK1 fill:#fff4e1
+    style WORK2 fill:#fff4e1
+    style PROM fill:#ffe1e1
+    style GRAF fill:#ffe1e1
+```
+
+**Descripción:**  
+Este diagrama muestra el despliegue en Kubernetes. Los usuarios acceden a través del Ingress Controller, que enruta hacia múltiples pods del backend (escalables horizontalmente mediante HPA). Los pods acceden a PostgreSQL, Redis y RabbitMQ a través de Services. Prometheus recolecta métricas de todos los pods y Grafana las visualiza. El almacenamiento persistente de PostgreSQL está respaldado por Persistent Volumes.
