@@ -128,4 +128,94 @@ El sistema debe permitir que administradores suspendan temporalmente o eliminen 
 
 ## 2. Votación Electoral
 
+### RF-VOT-01: Creación de proceso electoral
+
+**Descripción:**  
+El sistema debe permitir que autoridades electorales creen procesos electorales definiendo nombre, descripción, tipo, fecha y hora de inicio y cierre, padrón de estudiantes habilitados, cargos y listas/opciones de voto. El sistema debe validar que la fecha de cierre sea posterior a la de inicio y asignar estado inicial "Configuración". El sistema debe registrar auditoría de creación con usuario responsable.
+
+**Actor:** ACT-04 (Autoridad Electoral)  
+**Prioridad:** Crítica  
+**Historias Relacionadas:** HU-VOT-01
+
+---
+
+### RF-VOT-02: Apertura de proceso electoral
+
+**Descripción:**  
+El sistema debe permitir que autoridades electorales abran procesos electorales previamente configurados. El sistema debe validar que el padrón, cargos y listas estén completos antes de permitir la apertura. El sistema debe cambiar el estado del proceso a "Abierto" y registrar fecha, hora y usuario que realizó la apertura. Los resultados deben permanecer ocultos durante la votación.
+
+**Actor:** ACT-04 (Autoridad Electoral)  
+**Prioridad:** Crítica  
+**Historias Relacionadas:** HU-VOT-02
+
+---
+
+### RF-VOT-03: Emisión de voto único
+
+**Descripción:**  
+El sistema debe permitir que estudiantes habilitados emitan su voto en procesos electorales abiertos. El sistema debe verificar que el estudiante esté autenticado, en el padrón habilitado y que NO haya votado previamente en el proceso. El sistema debe registrar el voto mediante transacción con aislamiento adecuado para garantizar consistencia. El sistema debe impedir votos duplicados mediante restricciones de unicidad en base de datos (estudiante + proceso). El voto no puede ser modificado ni eliminado una vez emitido.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Crítica  
+**Historias Relacionadas:** HU-VOT-03, HU-VOT-08
+
+---
+
+### RF-VOT-04: Registro de participación sin revelar elección
+
+**Descripción:**  
+El sistema debe registrar la participación electoral del estudiante (que votó) sin exponer el contenido de su voto (por quién votó). El sistema debe mantener separadas la tabla de participación y la tabla de votos para garantizar privacidad. El sistema debe permitir que el estudiante verifique su participación sin revelar su elección.
+
+**Actor:** Sistema (lógica interna)  
+**Prioridad:** Crítica  
+**Historias Relacionadas:** HU-VOT-03, HU-VOT-06
+
+---
+
+### RF-VOT-05: Cierre de proceso electoral
+
+**Descripción:**  
+El sistema debe permitir que autoridades electorales cierren procesos electorales activos. El sistema debe cambiar el estado del proceso a "Cerrado", registrar fecha, hora y usuario responsable, e impedir la emisión de nuevos votos después del cierre. El sistema debe calcular y consolidar resultados finales.
+
+**Actor:** ACT-04 (Autoridad Electoral)  
+**Prioridad:** Crítica  
+**Historias Relacionadas:** HU-VOT-04
+
+---
+
+### RF-VOT-06: Consulta de resultados electorales
+
+**Descripción:**  
+El sistema debe permitir la consulta de resultados de procesos electorales cerrados cuando estén habilitados para consulta pública. El sistema debe mostrar votos totales por opción/lista, porcentaje de participación y estadísticas agregadas sin revelar el voto individual de ningún estudiante.
+
+**Actor:** ACT-01 (Estudiante), ACT-04 (Autoridad Electoral)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-VOT-05
+
+---
+
+### RF-VOT-07: Auditoría de proceso electoral
+
+**Descripción:**  
+El sistema debe mantener auditoría completa de procesos electorales, incluyendo eventos de creación, apertura, cierre, cambios de configuración, accesos administrativos y total de votos por periodo de tiempo. El sistema debe permitir exportar auditoría para revisión externa sin revelar votos individuales.
+
+**Actor:** ACT-04 (Autoridad Electoral), ACT-05 (Administrador)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-VOT-07
+
+---
+
+### RF-VOT-08: Manejo de concurrencia en emisión de votos
+
+**Descripción:**  
+El sistema debe manejar correctamente solicitudes concurrentes de emisión de voto utilizando transacciones con nivel de aislamiento adecuado (READ COMMITTED o superior). El sistema debe garantizar que un estudiante no pueda votar dos veces incluso si envía múltiples solicitudes simultáneas. El sistema debe responder con error controlado ante intentos de voto duplicado.
+
+**Actor:** Sistema (lógica interna)  
+**Prioridad:** Crítica  
+**Historias Relacionadas:** HU-VOT-08
+
+---
+
+## 3. Encuestas e Investigación
+
 _(A completar en el siguiente commit)_
