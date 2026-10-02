@@ -737,4 +737,205 @@ Las historias están organizadas por dominios funcionales y mantienen trazabilid
 
 ## 7. Administración
 
-_(A completar en el siguiente commit)_
+### HU-ADM-01: Panel administrativo
+
+**Como** administrador  
+**quiero** acceder a un panel administrativo centralizado  
+**para** supervisar y gestionar todas las operaciones del sistema.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema valida que el usuario tenga rol Administrador
+- El panel muestra resumen de usuarios activos, procesos en curso y métricas clave
+- El panel proporciona acceso rápido a gestión de usuarios, roles, encuestas, eventos
+- El panel muestra alertas y notificaciones administrativas
+- El panel permite navegación hacia módulos de configuración
+
+---
+
+### HU-ADM-02: Gestión de usuarios
+
+**Como** administrador  
+**quiero** gestionar usuarios registrados  
+**para** activar, suspender o eliminar cuentas según sea necesario.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema muestra listado de usuarios con filtros y búsqueda
+- El sistema permite visualizar detalles de cada usuario
+- El sistema permite activar o suspender cuentas
+- El sistema permite eliminar usuarios (con confirmación)
+- El sistema registra auditoría de todas las acciones administrativas
+- El sistema impide que un administrador se elimine a sí mismo
+
+---
+
+### HU-ADM-03: Consulta de auditoría
+
+**Como** administrador o autoridad autorizada  
+**quiero** consultar registros de auditoría del sistema  
+**para** verificar trazabilidad de operaciones críticas.
+
+**Actor:** ACT-05 (Administrador), ACT-04 (Autoridad Electoral)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema muestra eventos de auditoría por módulo
+- El sistema permite filtrar por fecha, usuario, tipo de acción
+- El sistema muestra eventos de creación, modificación y eliminación
+- El sistema muestra intentos fallidos de autenticación
+- El sistema muestra accesos administrativos
+- El sistema permite exportar auditoría para revisión externa
+- El sistema NO permite modificar ni eliminar registros de auditoría
+
+---
+
+### HU-ADM-04: Configuración del sistema
+
+**Como** administrador  
+**quiero** configurar parámetros generales del sistema  
+**para** ajustar el comportamiento de la plataforma.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Media
+
+**Criterios de aceptación:**
+- El sistema permite configurar límites y políticas generales
+- El sistema permite configurar parámetros de seguridad
+- El sistema permite configurar notificaciones automáticas
+- El sistema valida valores ingresados antes de aplicar cambios
+- El sistema registra auditoría de cambios de configuración
+- Los cambios se aplican de forma controlada
+
+---
+
+### HU-ADM-05: Respaldos y mantenimiento
+
+**Como** administrador  
+**quiero** gestionar respaldos del sistema  
+**para** garantizar la recuperación ante fallos.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema permite programar respaldos automáticos
+- El sistema permite realizar respaldos manuales
+- El sistema valida integridad de respaldos
+- El sistema muestra historial de respaldos exitosos y fallidos
+- El sistema permite restaurar desde un respaldo específico
+- El sistema registra todas las operaciones de respaldo y restauración
+
+---
+
+## 8. Reportes y Análisis
+
+### HU-REP-01: Dashboard de participación
+
+**Como** administrador  
+**quiero** visualizar dashboards con indicadores de participación  
+**para** monitorear el uso de la plataforma.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Media
+
+**Criterios de aceptación:**
+- El dashboard muestra usuarios activos por periodo
+- El dashboard muestra participación en votaciones, encuestas y eventos
+- El dashboard muestra actividad de la comunidad
+- El dashboard muestra puntos asignados y canjeados
+- Los gráficos son interactivos y permiten filtros por fecha
+- El dashboard se actualiza en tiempo razonable
+
+---
+
+### HU-REP-02: Reporte de encuestas
+
+**Como** docente/tesista  
+**quiero** generar reportes de resultados de encuestas  
+**para** analizar datos para investigación.
+
+**Actor:** ACT-02 (Docente/Tesista)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema genera reportes agregados por encuesta
+- El sistema muestra estadísticas descriptivas
+- El sistema permite exportar en CSV, Excel o PDF
+- El sistema NO revela identidad de estudiantes (datos anonimizados)
+- El reporte incluye gráficos y tablas
+
+---
+
+### HU-REP-03: Reporte electoral
+
+**Como** autoridad electoral  
+**quiero** generar reportes de procesos electorales  
+**para** documentar transparencia y resultados.
+
+**Actor:** ACT-04 (Autoridad Electoral)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema genera reporte con participación electoral agregada
+- El sistema muestra votos por opción sin revelar identidad de votantes
+- El sistema incluye auditoría de eventos críticos del proceso
+- El sistema permite exportar reporte oficial
+- El reporte incluye fecha, hora, padrón utilizado y resultados
+
+---
+
+### HU-REP-04: Reporte de eventos
+
+**Como** administrador  
+**quiero** generar reportes de eventos realizados  
+**para** evaluar participación y asistencia.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Media
+
+**Criterios de aceptación:**
+- El sistema muestra listado de eventos por periodo
+- El sistema muestra inscritos vs asistentes reales
+- El sistema muestra tasa de ocupación por evento
+- El sistema muestra certificados generados
+- El sistema permite exportar reporte en formato tabular
+
+---
+
+### HU-REP-05: Indicadores de rendimiento
+
+**Como** administrador  
+**quiero** consultar indicadores técnicos de rendimiento  
+**para** supervisar la salud del sistema.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Media
+
+**Criterios de aceptación:**
+- El sistema muestra solicitudes por segundo
+- El sistema muestra latencia promedio de operaciones críticas
+- El sistema muestra tasa de errores
+- El sistema muestra uso de recursos (CPU, memoria, conexiones)
+- El sistema integra métricas de observabilidad (Prometheus/Grafana)
+- El sistema permite configurar alertas ante anomalías
+
+---
+
+## Resumen de Historias de Usuario
+
+| Dominio | Cantidad de Historias |
+|---------|----------------------|
+| Identidad y Usuarios | 9 |
+| Votación Electoral | 8 |
+| Encuestas e Investigación | 5 |
+| Eventos | 5 |
+| Comunidad Estudiantil | 5 |
+| Incentivos y Puntos | 5 |
+| Administración | 5 |
+| Reportes y Análisis | 5 |
+| **Total** | **47** |
