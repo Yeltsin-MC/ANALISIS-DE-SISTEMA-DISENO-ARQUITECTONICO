@@ -343,4 +343,202 @@ Las historias están organizadas por dominios funcionales y mantienen trazabilid
 
 ## 3. Encuestas e Investigación
 
+### HU-ENC-01: Creación de encuesta
+
+**Como** docente/tesista autorizado  
+**quiero** crear una encuesta académica dirigida a estudiantes  
+**para** recopilar información para investigación o fines académicos.
+
+**Actor:** ACT-02 (Docente/Tesista)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema valida que el usuario tenga rol Docente/Tesista
+- El sistema permite definir título, descripción y objetivo de la encuesta
+- El sistema permite agregar preguntas de selección, escala y respuesta abierta
+- El sistema permite definir validaciones básicas por pregunta
+- El sistema permite definir segmento objetivo de estudiantes (facultad, escuela, ciclo)
+- El sistema permite establecer fecha de inicio y fin de la encuesta
+- El sistema permite configurar límite de respuestas por estudiante
+- El sistema permite habilitar incentivos por respuesta
+- El sistema asigna estado inicial "Borrador" a la encuesta
+
+---
+
+### HU-ENC-02: Publicación de encuesta
+
+**Como** docente/tesista  
+**quiero** publicar una encuesta configurada  
+**para** que los estudiantes objetivo puedan responderla.
+
+**Actor:** ACT-02 (Docente/Tesista)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema valida que la encuesta tenga al menos una pregunta
+- El sistema valida que las fechas estén configuradas correctamente
+- El sistema cambia el estado de la encuesta a "Publicada"
+- Los estudiantes del segmento objetivo pueden visualizar la encuesta
+- El sistema registra fecha y hora de publicación
+
+---
+
+### HU-ENC-03: Respuesta de encuesta
+
+**Como** estudiante  
+**quiero** responder encuestas disponibles  
+**para** contribuir a la investigación académica y obtener incentivos.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema muestra encuestas disponibles según el segmento del estudiante
+- El sistema valida que la encuesta esté publicada y dentro del periodo habilitado
+- El sistema valida que el estudiante no haya superado el límite de respuestas
+- El sistema aplica validaciones configuradas en las preguntas
+- El sistema registra las respuestas con marca de tiempo
+- El sistema aplica controles de atención y reglas antifraude cuando corresponda
+- El sistema asigna puntos si la encuesta tiene incentivos configurados
+- El sistema impide respuestas duplicadas cuando esté configurado
+
+---
+
+### HU-ENC-04: Consulta de resultados de encuesta
+
+**Como** docente/tesista  
+**quiero** consultar los resultados agregados de mi encuesta  
+**para** analizar la información recopilada.
+
+**Actor:** ACT-02 (Docente/Tesista)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema muestra resultados agregados por pregunta
+- El sistema muestra gráficos para preguntas de selección y escala
+- El sistema muestra respuestas de texto agrupadas
+- El sistema muestra total de respuestas y tasa de participación
+- El sistema permite filtrar resultados por segmento
+- El sistema permite exportar resultados en formato CSV o Excel
+
+---
+
+### HU-ENC-05: Control de respuestas duplicadas
+
+**Como** sistema  
+**quiero** controlar respuestas duplicadas según configuración  
+**para** garantizar la calidad de los datos recopilados.
+
+**Actor:** Sistema (lógica interna)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema aplica límites configurables por usuario y encuesta
+- El sistema valida respuestas duplicadas antes de registrar
+- El sistema aplica controles de atención para detectar respuestas automáticas
+- El sistema registra intentos de respuestas no permitidas
+- El sistema asigna incentivos solo después de validaciones exitosas
+
+---
+
+## 4. Eventos
+
+### HU-EVE-01: Publicación de evento
+
+**Como** administrador  
+**quiero** publicar eventos universitarios (charlas, talleres, congresos)  
+**para** que los estudiantes puedan inscribirse y asistir.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema permite ingresar título, descripción, fecha, hora y lugar del evento
+- El sistema permite establecer aforo máximo del evento
+- El sistema permite cargar imagen o banner del evento
+- El sistema permite configurar si el evento otorga certificado
+- El sistema permite establecer fecha límite de inscripción
+- El sistema asigna estado "Publicado" al evento
+- Los estudiantes pueden visualizar el evento publicado
+
+---
+
+### HU-EVE-02: Inscripción a evento
+
+**Como** estudiante  
+**quiero** inscribirme a un evento disponible  
+**para** reservar mi cupo y asistir al evento.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema muestra eventos disponibles con cupos restantes
+- El sistema valida que el estudiante esté autenticado
+- El sistema valida que exista aforo disponible
+- El sistema controla concurrencia para evitar sobrepaso de aforo
+- El sistema registra la inscripción mediante transacción
+- El sistema reduce el contador de cupos disponibles
+- El sistema confirma la inscripción exitosa
+- El sistema envía notificación de confirmación
+
+---
+
+### HU-EVE-03: Consulta de mis inscripciones
+
+**Como** estudiante  
+**quiero** consultar los eventos a los que me he inscrito  
+**para** recordar fecha, hora y lugar de asistencia.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Media
+
+**Criterios de aceptación:**
+- El sistema muestra listado de eventos inscritos
+- El sistema muestra estado de cada inscripción (pendiente, asistido, no asistió)
+- El sistema muestra fecha y hora del evento
+- El sistema permite visualizar código QR o código único de asistencia
+
+---
+
+### HU-EVE-04: Validación de asistencia
+
+**Como** administrador  
+**quiero** validar la asistencia de estudiantes mediante código QR  
+**para** confirmar su participación en el evento.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema genera código QR único por inscripción
+- El sistema permite escanear código QR en el evento
+- El sistema valida que el código pertenezca al evento correspondiente
+- El sistema marca la asistencia como "Asistió"
+- El sistema registra fecha y hora de validación
+- El sistema impide validaciones duplicadas
+
+---
+
+### HU-EVE-05: Generación de certificado
+
+**Como** estudiante que asistió a un evento  
+**quiero** descargar mi certificado digital  
+**para** acreditar mi participación.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Media
+
+**Criterios de aceptación:**
+- El sistema valida que el evento otorgue certificado
+- El sistema valida que el estudiante haya asistido al evento
+- El sistema genera certificado en formato PDF
+- El certificado incluye nombre del estudiante, evento, fecha y código de verificación
+- El sistema permite descargar el certificado desde el perfil
+- El sistema registra la descarga del certificado
+
+---
+
+## 5. Comunidad Estudiantil
+
 _(A completar en el siguiente commit)_
