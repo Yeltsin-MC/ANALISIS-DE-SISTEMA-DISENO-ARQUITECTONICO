@@ -409,3 +409,65 @@ La arquitectura inicial de Campus UNSCH como **monolito modular escalable** bala
 - **Evolución:** Límites claros permiten extracción futura de módulos críticos
 
 Esta decisión responde directamente a los drivers arquitectónicos identificados y establece una base sólida para el desarrollo del sistema.
+
+---
+
+## 13. Diagramas Arquitectónicos
+
+### 13.1. Diagrama de Módulos Funcionales
+
+```mermaid
+graph TB
+    subgraph "Campus UNSCH - Módulos Funcionales"
+        ID[Identidad y<br/>Usuarios]
+        EL[Electoral]
+        EN[Encuestas]
+        EV[Eventos]
+        COM[Comunidad]
+        INC[Incentivos]
+        NOT[Notificaciones]
+        AUD[Auditoría]
+        ADM[Administración]
+    end
+    
+    subgraph "Sistemas Externos"
+        PAD[Padrón<br/>Institucional]
+        MAIL[Correo<br/>Institucional]
+    end
+    
+    ID -->|valida estudiante| PAD
+    ID -->|activación cuenta| NOT
+    EL -->|verifica identidad| ID
+    EL -->|registra eventos| AUD
+    EL -->|asigna puntos| INC
+    EN -->|verifica identidad| ID
+    EN -->|asigna puntos| INC
+    EV -->|verifica identidad| ID
+    EV -->|asigna puntos| INC
+    EV -->|certificados| NOT
+    COM -->|verifica identidad| ID
+    INC -->|consulta usuario| ID
+    NOT -->|envía correos| MAIL
+    ADM -->|gestiona todos| ID
+    ADM -->|gestiona todos| EL
+    ADM -->|gestiona todos| EN
+    ADM -->|gestiona todos| EV
+    ADM -->|gestiona todos| COM
+    ADM -->|gestiona todos| INC
+    ADM -->|consulta| AUD
+    
+    style ID fill:#e1f5ff
+    style EL fill:#ffe1e1
+    style EN fill:#e1ffe1
+    style EV fill:#fff4e1
+    style COM fill:#f0e1ff
+    style INC fill:#ffe1f5
+    style NOT fill:#e1ffe1
+    style AUD fill:#ffe1e1
+    style ADM fill:#fff4e1
+    style PAD fill:#d0d0d0
+    style MAIL fill:#d0d0d0
+```
+
+**Descripción:**  
+Este diagrama muestra los 9 módulos funcionales de Campus UNSCH y sus dependencias principales. El módulo de Identidad es central pues todos los demás módulos dependen de él para verificación de usuarios. El módulo Electoral (rojo claro) es el candidato principal para extracción futura como microservicio debido a su criticidad.
