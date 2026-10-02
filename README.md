@@ -5,7 +5,7 @@
 **Universidad:** Universidad Nacional de San Cristóbal de Huamanga  
 **Escuela Profesional:** Ingeniería de Sistemas  
 **Curso:** Arquitectura de Software  
-**Docente:** Mg. Richard Zapata Casaverde  
+**Docente:** Ing. Lizbet Jaico Quispe
 **Estudiante:** Yeltsin Wilber Muñoz Corichahua  
 
 **Nombre del Sistema:** Campus UNSCH
