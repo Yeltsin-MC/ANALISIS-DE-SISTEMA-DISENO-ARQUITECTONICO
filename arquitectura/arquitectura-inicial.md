@@ -609,3 +609,57 @@ graph TB
 
 **Descripción:**  
 Este diagrama muestra el despliegue en Kubernetes. Los usuarios acceden a través del Ingress Controller, que enruta hacia múltiples pods del backend (escalables horizontalmente mediante HPA). Los pods acceden a PostgreSQL, Redis y RabbitMQ a través de Services. Prometheus recolecta métricas de todos los pods y Grafana las visualiza. El almacenamiento persistente de PostgreSQL está respaldado por Persistent Volumes.
+
+---
+
+### 13.4. Secuencia de Emisión de Voto
+
+```mermaid
+sequenceDiagram
+    actor E as Estudiante
+    participant FE as Frontend
+    participant BE as Backend
+    participant AUTH as Módulo Identidad
+    participant ELEC as Módulo Electoral
+    participant DB as PostgreSQL
+    participant AUD as Auditoría
+    
+    E->>FE: Accede a proceso electoral abierto
+    FE->>BE: GET /procesos/{id}
+    BE->>ELEC: Consulta proceso
+    ELEC->>DB: SELECT proceso WHERE id=X
+    DB-->>ELEC: Datos del proceso (estado=ABIERTO)
+    ELEC-->>BE: Proceso habilitado
+    BE-->>FE: Listas disponibles
+    FE->>E: Muestra opciones de voto
+    
+    E->>FE: Selecciona lista y confirma voto
+    FE->>BE: POST /votos {proceso_id, lista_id}
+    BE->>AUTH: Valida sesión y obtiene estudiante_id
+    AUTH-->>BE: Estudiante autenticado
+    BE->>ELEC: Registrar voto (estudiante_id, proceso_id, lista_id)
+    
+    ELEC->>DB: BEGIN TRANSACTION
+    ELEC->>DB: SELECT participacion WHERE estudiante=X AND proceso=Y
+    
+    alt Ya votó anteriormente
+        DB-->>ELEC: Registro encontrado
+        ELEC->>DB: ROLLBACK
+        ELEC-->>BE: Error: Ya votó en este proceso
+        BE-->>FE: HTTP 409 Conflict
+        FE->>E: Mensaje: Ya emitiste tu voto
+    else Primera vez votando
+        DB-->>ELEC: No hay registro
+        ELEC->>DB: INSERT INTO votos (proceso_id, lista_id, timestamp)
+        ELEC->>DB: INSERT INTO participacion (proceso_id, estudiante_id, timestamp)
+        ELEC->>DB: COMMIT TRANSACTION
+        DB-->>ELEC: Voto registrado
+        ELEC->>AUD: Registrar evento (proceso_id, timestamp)
+        ELEC-->>BE: Voto confirmado
+        BE-->>FE: HTTP 201 Created
+        FE->>E: Confirmación: Voto registrado exitosamente
+    end
+```
+
+**Descripción:**  
+Este diagrama de secuencia ilustra el flujo crítico de emisión de voto. El sistema verifica que el estudiante esté autenticado, que el proceso esté abierto, y que NO haya votado previamente. La transacción garantiza que si hay concurrencia (dos solicitudes simultáneas del mismo estudiante), solo una será exitosa. La separación entre las tablas `votos` y `participacion` garantiza la privacidad del voto.
