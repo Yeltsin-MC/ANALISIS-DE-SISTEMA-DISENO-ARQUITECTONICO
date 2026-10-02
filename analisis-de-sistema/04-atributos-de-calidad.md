@@ -273,4 +273,191 @@ La propuesta del proyecto Campus UNSCH establece como **escenario objetivo de di
 
 ## 6. Disponibilidad y Resiliencia
 
-_(A completar en el siguiente commit)_
+### AC-DIS-01: Disponibilidad del sistema
+
+**Fuente del estímulo:** Usuarios (estudiantes, docentes, administradores)  
+**Estímulo:** Solicitudes de acceso al sistema  
+**Entorno:** Operación continua durante 24/7  
+**Artefacto:** Sistema completo (backend, BD, caché)  
+**Respuesta:** El sistema está disponible y respondiendo correctamente  
+**Medida de respuesta:** Disponibilidad ≥ 99.5% mensual (tiempo de inactividad ≤ 3.6 horas/mes)
+
+**Prioridad:** Alta  
+**Requisitos relacionados:** Arquitectura general
+
+---
+
+### AC-RES-01: Recuperación ante fallo de instancia backend
+
+**Fuente del estímulo:** Fallo de hardware, error de aplicación o proceso terminado  
+**Estímulo:** Una instancia del backend falla  
+**Entorno:** Operación con múltiples réplicas activas  
+**Artefacto:** Backend, Balanceador de carga, Kubernetes  
+**Respuesta:** El balanceador redirige tráfico a instancias saludables; Kubernetes reinicia instancia fallida  
+**Medida de respuesta:** Detección de fallo en ≤ 30 segundos; tráfico redirigido sin pérdida de solicitudes activas; nueva instancia operativa en ≤ 2 minutos
+
+**Prioridad:** Alta  
+**Requisitos relacionados:** Arquitectura general
+
+---
+
+### AC-RES-02: Recuperación ante fallo de base de datos
+
+**Fuente del estímulo:** Fallo de hardware, corrupción de datos o error crítico  
+**Estímulo:** Fallo de la instancia principal de PostgreSQL  
+**Entorno:** Operación con configuración de respaldo o réplica  
+**Artefacto:** Base de datos PostgreSQL  
+**Respuesta:** El sistema detecta fallo y promueve réplica secundaria (si existe) o restaura desde respaldo  
+**Medida de respuesta:** Detección en ≤ 1 minuto; promoción de réplica en ≤ 5 minutos; restauración desde respaldo ≤ 1 hora con pérdida de datos ≤ 15 minutos
+
+**Prioridad:** Crítica  
+**Requisitos relacionados:** RF-ADM-05
+
+---
+
+### AC-RES-03: Manejo de errores transitorios
+
+**Fuente del estímulo:** Fallo temporal de red, timeout de BD o error transitorio  
+**Estímulo:** Error transitorio en operación no crítica  
+**Entorno:** Operación normal con fallos transitorios ocasionales  
+**Artefacto:** Backend, Cliente de BD, Colas de mensajes  
+**Respuesta:** El sistema reintenta operación con backoff exponencial  
+**Medida de respuesta:** Máximo 3 reintentos con intervalos crecientes (1s, 2s, 4s); operación marcada como fallida después de reintentos
+
+**Prioridad:** Media  
+**Requisitos relacionados:** Arquitectura general
+
+---
+
+## 7. Auditabilidad
+
+### AC-AUD-01: Trazabilidad de proceso electoral
+
+**Fuente del estímulo:** Autoridad electoral o auditor externo  
+**Estímulo:** Solicitud de auditoría de proceso electoral  
+**Entorno:** Durante o después de proceso electoral  
+**Artefacto:** Módulo Electoral, Base de datos de auditoría  
+**Respuesta:** El sistema proporciona log completo de eventos del proceso (creación, apertura, votos emitidos por periodo, cierre, accesos administrativos)  
+**Medida de respuesta:** 100% de eventos críticos registrados con timestamp, usuario responsable y acción realizada; logs inmutables
+
+**Prioridad:** Crítica  
+**Requisitos relacionados:** RF-VOT-07
+
+---
+
+### AC-AUD-02: Registro de cambios administrativos
+
+**Fuente del estímulo:** Administrador  
+**Estímulo:** Acción administrativa (cambio de rol, suspensión de cuenta, modificación de configuración)  
+**Entorno:** Operación administrativa  
+**Artefacto:** Módulo de Administración, Auditoría  
+**Respuesta:** El sistema registra quién, qué, cuándo y desde dónde se realizó la acción  
+**Medida de respuesta:** 100% de acciones administrativas auditadas; logs almacenados de forma inmutable; retención mínima de 2 años
+
+**Prioridad:** Alta  
+**Requisitos relacionados:** RF-ADM-03
+
+---
+
+### AC-AUD-03: Trazabilidad de asignación de incentivos
+
+**Fuente del estímulo:** Administrador o auditor  
+**Estímulo:** Solicitud de auditoría de sistema de incentivos  
+**Entorno:** Revisión de integridad del sistema de puntos  
+**Artefacto:** Módulo de Incentivos, Auditoría  
+**Respuesta:** El sistema proporciona log de todas las asignaciones y canjes de puntos  
+**Medida de respuesta:** 100% de movimientos de puntos auditados con estudiante, actividad, cantidad y timestamp; detección de anomalías
+
+**Prioridad:** Alta  
+**Requisitos relacionados:** RF-INC-01
+
+---
+
+## 8. Observabilidad
+
+### AC-OBS-01: Monitoreo de métricas de rendimiento
+
+**Fuente del estímulo:** Sistema de monitoreo (Prometheus)  
+**Estímulo:** Recolección continua de métricas  
+**Entorno:** Operación continua  
+**Artefacto:** Backend, Base de datos, Redis, Sistema completo  
+**Respuesta:** El sistema expone métricas de solicitudes/segundo, latencia, errores, uso de CPU, memoria, conexiones  
+**Medida de respuesta:** Métricas actualizadas cada 15 segundos; retención de métricas durante 30 días; visualización en Grafana
+
+**Prioridad:** Alta  
+**Requisitos relacionados:** RF-REP-05
+
+---
+
+### AC-OBS-02: Alertas ante anomalías
+
+**Fuente del estímulo:** Sistema de monitoreo  
+**Estímulo:** Detección de condición anómala (tasa de errores > 5%, latencia > umbral, uso de CPU > 85%)  
+**Entorno:** Operación con monitoreo activo  
+**Artefacto:** Sistema de alertas (Prometheus Alertmanager)  
+**Respuesta:** El sistema notifica a administradores mediante canal configurado  
+**Medida de respuesta:** Alerta enviada en ≤ 1 minuto después de detectar condición anómala sostenida durante 2 minutos
+
+**Prioridad:** Alta  
+**Requisitos relacionados:** RF-REP-05
+
+---
+
+### AC-OBS-03: Logs estructurados y centralizados
+
+**Fuente del estímulo:** Aplicación (backend, servicios)  
+**Estímulo:** Eventos y errores durante operación  
+**Entorno:** Operación continua  
+**Artefacto:** Sistema de logging  
+**Respuesta:** El sistema genera logs estructurados (JSON) con nivel, timestamp, contexto y trazabilidad  
+**Medida de respuesta:** Logs centralizados; retención de 90 días; búsqueda y filtrado en ≤ 5 segundos
+
+**Prioridad:** Media  
+**Requisitos relacionados:** Arquitectura general
+
+---
+
+## 9. Modificabilidad
+
+### AC-MOD-01: Separación modular de dominios
+
+**Fuente del estímulo:** Desarrollador  
+**Estímulo:** Necesidad de modificar lógica del módulo Electoral sin afectar otros módulos  
+**Entorno:** Desarrollo o mantenimiento  
+**Artefacto:** Código del backend (monolito modular)  
+**Respuesta:** El sistema permite modificar módulo específico con impacto limitado  
+**Medida de respuesta:** Cambio en un módulo afecta a ≤ 2 módulos relacionados; cambios aislados mediante interfaces y límites claros
+
+**Prioridad:** Alta  
+**Requisitos relacionados:** Arquitectura general
+
+---
+
+### AC-MOD-02: Extracción de módulo Electoral como microservicio
+
+**Fuente del estímulo:** Arquitecto o equipo de desarrollo  
+**Estímulo:** Decisión de extraer módulo Electoral como microservicio independiente  
+**Entorno:** Evolución arquitectónica  
+**Artefacto:** Módulo Electoral, Arquitectura general  
+**Respuesta:** El sistema permite extraer módulo con refactorización controlada  
+**Medida de respuesta:** Extracción posible en ≤ 4 semanas con límites claros ya establecidos; sin reescritura completa
+
+**Prioridad:** Media  
+**Requisitos relacionados:** Arquitectura inicial
+
+---
+
+## Resumen de Atributos de Calidad
+
+| Categoría | Cantidad de Atributos |
+|-----------|----------------------|
+| Rendimiento | 4 |
+| Escalabilidad | 4 |
+| Elasticidad | 3 |
+| Seguridad | 4 |
+| Consistencia | 3 |
+| Disponibilidad y Resiliencia | 3 |
+| Auditabilidad | 3 |
+| Observabilidad | 3 |
+| Modificabilidad | 2 |
+| **Total** | **29** |
