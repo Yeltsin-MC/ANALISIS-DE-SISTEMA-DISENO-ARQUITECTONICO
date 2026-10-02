@@ -541,4 +541,200 @@ Las historias están organizadas por dominios funcionales y mantienen trazabilid
 
 ## 5. Comunidad Estudiantil
 
+### HU-COM-01: Publicación en comunidad
+
+**Como** estudiante verificado  
+**quiero** publicar contenido en la comunidad estudiantil  
+**para** compartir información, opiniones o preguntas con otros estudiantes.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema valida que el estudiante esté autenticado y verificado
+- El sistema permite ingresar título y contenido de la publicación
+- El sistema permite adjuntar imágenes (opcional)
+- El sistema permite publicar de forma anónima si está habilitado
+- El sistema mantiene trazabilidad administrativa aun en publicaciones anónimas
+- El sistema aplica filtros básicos de contenido inapropiado
+- El sistema registra fecha y hora de publicación
+- La publicación se muestra a otros estudiantes
+
+---
+
+### HU-COM-02: Comentario en publicación
+
+**Como** estudiante verificado  
+**quiero** comentar publicaciones de la comunidad  
+**para** interactuar con otros estudiantes.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema permite agregar comentarios a publicaciones existentes
+- El sistema valida que el estudiante esté autenticado
+- El sistema permite comentar de forma anónima si está habilitado
+- El sistema mantiene trazabilidad administrativa de comentarios anónimos
+- El sistema registra fecha y hora del comentario
+- Los comentarios se muestran ordenados cronológicamente
+
+---
+
+### HU-COM-03: Reporte de contenido
+
+**Como** estudiante  
+**quiero** reportar contenido inapropiado  
+**para** mantener un ambiente de convivencia saludable.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema permite reportar publicaciones y comentarios
+- El sistema solicita motivo del reporte (acoso, contenido ofensivo, spam, etc.)
+- El sistema permite agregar descripción adicional
+- El sistema registra el reporte con fecha, hora y usuario reportante
+- El sistema notifica a moderadores sobre el nuevo reporte
+- El sistema impide reportes duplicados del mismo usuario sobre el mismo contenido
+
+---
+
+### HU-COM-04: Moderación de contenido
+
+**Como** moderador  
+**quiero** revisar reportes de contenido y aplicar medidas  
+**para** garantizar el cumplimiento de normas de convivencia.
+
+**Actor:** ACT-03 (Moderador)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema muestra listado de reportes pendientes
+- El sistema permite visualizar el contenido reportado y su contexto
+- El sistema permite ocultar o eliminar contenido
+- El sistema permite aplicar medidas al usuario infractor
+- El sistema permite rechazar el reporte si no procede
+- El sistema registra auditoría de todas las acciones de moderación
+- El sistema notifica al usuario afectado sobre la medida aplicada
+
+---
+
+### HU-COM-05: Consulta de mis publicaciones
+
+**Como** estudiante  
+**quiero** consultar mis publicaciones y comentarios  
+**para** revisar mi actividad en la comunidad.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Media
+
+**Criterios de aceptación:**
+- El sistema muestra publicaciones del estudiante autenticado
+- El sistema muestra comentarios realizados
+- El sistema muestra fecha de publicación
+- El sistema permite editar publicaciones propias (dentro de un periodo)
+- El sistema permite eliminar publicaciones propias sin comentarios
+
+---
+
+## 6. Incentivos y Puntos
+
+### HU-INC-01: Asignación de puntos
+
+**Como** sistema  
+**quiero** asignar puntos por actividades autorizadas  
+**para** incentivar la participación estudiantil.
+
+**Actor:** Sistema (lógica interna)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema asigna puntos por responder encuestas autorizadas
+- El sistema asigna puntos por asistir a eventos
+- El sistema asigna puntos por participación en votaciones sin revelar la opción elegida
+- El sistema utiliza operaciones idempotentes para evitar asignaciones duplicadas
+- El sistema aplica límites diarios y reglas de elegibilidad
+- El sistema registra auditoría de cada asignación de puntos
+- El sistema actualiza el saldo de puntos del estudiante
+
+---
+
+### HU-INC-02: Consulta de puntos
+
+**Como** estudiante  
+**quiero** consultar mis puntos acumulados  
+**para** conocer mi saldo y actividades realizadas.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Media
+
+**Criterios de aceptación:**
+- El sistema muestra saldo actual de puntos
+- El sistema muestra historial de puntos ganados con detalle de actividad
+- El sistema muestra puntos canjeados
+- El sistema muestra fecha de cada movimiento
+- El sistema muestra puntos disponibles para canje
+
+---
+
+### HU-INC-03: Canje de puntos
+
+**Como** estudiante  
+**quiero** canjear mis puntos por recompensas disponibles  
+**para** obtener beneficios por mi participación.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Media
+
+**Criterios de aceptación:**
+- El sistema muestra catálogo de recompensas disponibles
+- El sistema muestra puntos requeridos por recompensa
+- El sistema valida que el estudiante tenga puntos suficientes
+- El sistema registra el canje mediante transacción
+- El sistema deduce los puntos del saldo del estudiante
+- El sistema genera comprobante o código de canje
+- El sistema notifica el canje exitoso
+
+---
+
+### HU-INC-04: Configuración de reglas de incentivos
+
+**Como** administrador  
+**quiero** configurar reglas de asignación y límites de puntos  
+**para** controlar el sistema de incentivos.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Alta
+
+**Criterios de aceptación:**
+- El sistema permite definir puntos por tipo de actividad
+- El sistema permite establecer límites diarios por usuario
+- El sistema permite configurar reglas de elegibilidad
+- El sistema permite habilitar o deshabilitar tipos de incentivos
+- El sistema registra auditoría de cambios de configuración
+- Los cambios se aplican a partir de la fecha de configuración
+
+---
+
+### HU-INC-05: Gestión del catálogo de recompensas
+
+**Como** administrador  
+**quiero** gestionar el catálogo de recompensas disponibles  
+**para** ofrecer opciones de canje a los estudiantes.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Media
+
+**Criterios de aceptación:**
+- El sistema permite agregar, editar y eliminar recompensas
+- El sistema permite definir nombre, descripción, puntos requeridos e imagen
+- El sistema permite establecer cantidad disponible de cada recompensa
+- El sistema permite habilitar o deshabilitar recompensas
+- El sistema actualiza disponibilidad después de cada canje
+
+---
+
+## 7. Administración
+
 _(A completar en el siguiente commit)_
