@@ -332,4 +332,118 @@ El sistema debe generar certificados digitales en formato PDF para estudiantes q
 
 ## 5. Comunidad Estudiantil
 
+### RF-COM-01: Publicación de contenido en comunidad
+
+**Descripción:**  
+El sistema debe permitir que estudiantes verificados publiquen contenido (título, texto, imágenes opcionales) en la comunidad estudiantil. El sistema debe permitir publicación anónima frente a otros estudiantes cuando esté habilitado, manteniendo trazabilidad administrativa para moderación. El sistema debe aplicar filtros básicos de contenido inapropiado y registrar fecha y hora de publicación.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-COM-01
+
+---
+
+### RF-COM-02: Comentarios en publicaciones
+
+**Descripción:**  
+El sistema debe permitir que estudiantes verificados comenten publicaciones existentes. El sistema debe permitir comentarios anónimos cuando esté habilitado manteniendo trazabilidad administrativa. Los comentarios deben mostrarse ordenados cronológicamente.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-COM-02
+
+---
+
+### RF-COM-03: Sistema de reportes de contenido
+
+**Descripción:**  
+El sistema debe permitir que estudiantes reporten publicaciones y comentarios inapropiados indicando motivo (acoso, contenido ofensivo, spam, etc.) y descripción adicional. El sistema debe registrar el reporte con fecha, hora y usuario reportante, notificar a moderadores e impedir reportes duplicados del mismo usuario sobre el mismo contenido.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-COM-03
+
+---
+
+### RF-COM-04: Moderación y aplicación de medidas
+
+**Descripción:**  
+El sistema debe permitir que moderadores revisen reportes pendientes, visualicen contenido reportado con contexto, oculten o eliminen contenido, apliquen medidas al usuario infractor y rechacen reportes que no procedan. El sistema debe registrar auditoría de todas las acciones de moderación y notificar al usuario afectado.
+
+**Actor:** ACT-03 (Moderador)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-COM-04
+
+---
+
+### RF-COM-05: Gestión de publicaciones propias
+
+**Descripción:**  
+El sistema debe permitir que estudiantes consulten sus publicaciones y comentarios, editen publicaciones propias dentro de un periodo configurable, y eliminen publicaciones propias que no tengan comentarios.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Media  
+**Historias Relacionadas:** HU-COM-05
+
+---
+
+## 6. Incentivos y Puntos
+
+### RF-INC-01: Asignación idempotente de puntos
+
+**Descripción:**  
+El sistema debe asignar puntos por actividades autorizadas (responder encuestas, asistir a eventos, participar en votaciones) utilizando operaciones idempotentes para evitar asignaciones duplicadas. El sistema debe aplicar límites diarios y reglas de elegibilidad, registrar auditoría de cada asignación y actualizar el saldo del estudiante. La asignación de puntos por participación electoral NO debe depender de la opción elegida ni requerir revelar el contenido del voto.
+
+**Actor:** Sistema (lógica interna)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-INC-01
+
+---
+
+### RF-INC-02: Consulta de saldo y historial de puntos
+
+**Descripción:**  
+El sistema debe permitir que estudiantes consulten su saldo actual de puntos, historial de puntos ganados con detalle de actividad, puntos canjeados y fecha de cada movimiento.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Media  
+**Historias Relacionadas:** HU-INC-02
+
+---
+
+### RF-INC-03: Canje de puntos por recompensas
+
+**Descripción:**  
+El sistema debe permitir que estudiantes canjeen puntos por recompensas del catálogo disponible. El sistema debe validar que el estudiante tenga puntos suficientes, registrar el canje mediante transacción, deducir puntos del saldo, generar comprobante o código de canje y notificar el canje exitoso.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Media  
+**Historias Relacionadas:** HU-INC-03
+
+---
+
+### RF-INC-04: Configuración de reglas de incentivos
+
+**Descripción:**  
+El sistema debe permitir que administradores configuren puntos por tipo de actividad, límites diarios por usuario, reglas de elegibilidad y habiliten/deshabiliten tipos de incentivos. El sistema debe registrar auditoría de cambios de configuración y aplicar cambios a partir de la fecha de configuración.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-INC-04
+
+---
+
+### RF-INC-05: Gestión de catálogo de recompensas
+
+**Descripción:**  
+El sistema debe permitir que administradores agreguen, editen y eliminen recompensas del catálogo, definiendo nombre, descripción, puntos requeridos, imagen, cantidad disponible y estado (habilitado/deshabilitado). El sistema debe actualizar disponibilidad después de cada canje.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Media  
+**Historias Relacionadas:** HU-INC-05
+
+---
+
+## 7. Administración y Reportes
+
 _(A completar en el siguiente commit)_
