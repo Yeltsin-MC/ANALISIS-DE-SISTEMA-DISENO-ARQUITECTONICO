@@ -127,4 +127,150 @@ La propuesta del proyecto Campus UNSCH establece como **escenario objetivo de di
 
 ## 3. Elasticidad
 
+### AC-ELA-01: Escalado automático ante carga variable
+
+**Fuente del estímulo:** Sistema de monitoreo (Prometheus/Kubernetes HPA)  
+**Estímulo:** Aumento de uso de CPU > 70% o solicitudes/segundo > umbral configurado  
+**Entorno:** Proceso electoral programado o evento masivo con carga creciente  
+**Artefacto:** Backend, Orquestador (Kubernetes)  
+**Respuesta:** El sistema despliega réplicas adicionales automáticamente  
+**Medida de respuesta:** Escalado automático en ≤ 2 minutos cuando se supera umbral configurado
+
+**Prioridad:** Alta  
+**Requisitos relacionados:** Arquitectura general, AC-ESC-01
+
+---
+
+### AC-ELA-02: Reducción de recursos tras finalización de pico
+
+**Fuente del estímulo:** Sistema de monitoreo  
+**Estímulo:** Reducción sostenida de carga (CPU < 30%, solicitudes por debajo de umbral)  
+**Entorno:** Finalización de proceso electoral o evento masivo  
+**Artefacto:** Backend, Orquestador  
+**Respuesta:** El sistema reduce número de réplicas de backend  
+**Medida de respuesta:** Reducción de réplicas en ≤ 10 minutos después de detectar carga baja sostenida
+
+**Prioridad:** Media  
+**Requisitos relacionados:** Arquitectura general
+
+---
+
+### AC-ELA-03: Pre-escalado para eventos programados
+
+**Fuente del estímulo:** Administrador o sistema de programación  
+**Estímulo:** Configuración de pre-escalado para proceso electoral programado  
+**Entorno:** Horas o minutos antes del inicio de proceso crítico  
+**Artefacto:** Backend, Orquestador  
+**Respuesta:** El sistema incrementa réplicas preventivamente antes del evento  
+**Medida de respuesta:** Réplicas adicionales desplegadas y operativas 15 minutos antes del inicio configurado
+
+**Prioridad:** Alta  
+**Requisitos relacionados:** Arquitectura general
+
+---
+
+## 4. Seguridad
+
+### AC-SEG-01: Protección de credenciales
+
+**Fuente del estímulo:** Estudiante o atacante  
+**Estímulo:** Intento de autenticación con credenciales  
+**Entorno:** Operación normal o intento de ataque  
+**Artefacto:** Módulo de autenticación, Base de datos  
+**Respuesta:** El sistema almacena contraseñas con hash seguro (bcrypt), valida sin exponer información sensible  
+**Medida de respuesta:** Todas las contraseñas almacenadas con algoritmo bcrypt (cost factor ≥ 10); mensajes de error no revelan si el correo existe
+
+**Prioridad:** Crítica  
+**Requisitos relacionados:** RF-USR-03, RF-USR-06
+
+---
+
+### AC-SEG-02: Protección contra fuerza bruta
+
+**Fuente del estímulo:** Atacante  
+**Estímulo:** Múltiples intentos fallidos de autenticación desde una IP  
+**Entorno:** Intento de ataque de fuerza bruta  
+**Artefacto:** Módulo de autenticación, Rate limiting (Redis)  
+**Respuesta:** El sistema bloquea temporalmente intentos adicionales desde la IP  
+**Medida de respuesta:** Bloqueo de IP después de 5 intentos fallidos en 10 minutos; bloqueo de 15 minutos
+
+**Prioridad:** Alta  
+**Requisitos relacionados:** RF-USR-03
+
+---
+
+### AC-SEG-03: Privacidad del voto
+
+**Fuente del estímulo:** Administrador, autoridad electoral o atacante  
+**Estímulo:** Intento de consultar por quién votó un estudiante específico  
+**Entorno:** Durante o después de proceso electoral  
+**Artefacto:** Módulo Electoral, Base de datos  
+**Respuesta:** El sistema mantiene separadas participación y voto; NO permite trazabilidad individual  
+**Medida de respuesta:** Imposibilidad arquitectónica de relacionar estudiante con voto emitido; auditorías externas confirman privacidad
+
+**Prioridad:** Crítica  
+**Requisitos relacionados:** RF-VOT-04
+
+---
+
+### AC-SEG-04: Validación de entrada y prevención de inyección
+
+**Fuente del estímulo:** Usuario malicioso  
+**Estímulo:** Envío de datos con código SQL, scripts o comandos maliciosos  
+**Entorno:** Formularios, APIs, entradas de usuario  
+**Artefacto:** Backend, Capa de servicios  
+**Respuesta:** El sistema valida y sanitiza todas las entradas; utiliza consultas parametrizadas  
+**Medida de respuesta:** 100% de consultas SQL utilizan ORM o consultas preparadas; validación de entrada en todas las APIs
+
+**Prioridad:** Crítica  
+**Requisitos relacionados:** Todos los módulos
+
+---
+
+## 5. Consistencia
+
+### AC-CON-01: Voto único garantizado
+
+**Fuente del estímulo:** Estudiante o múltiples solicitudes concurrentes del mismo estudiante  
+**Estímulo:** Intentos de emitir voto múltiples veces en el mismo proceso  
+**Entorno:** Alta concurrencia durante proceso electoral  
+**Artefacto:** Módulo Electoral, Base de datos (PostgreSQL)  
+**Respuesta:** El sistema utiliza transacciones y restricción de unicidad (estudiante + proceso) para impedir votos duplicados  
+**Medida de respuesta:** 0 votos duplicados registrados; transacciones con nivel de aislamiento READ COMMITTED o superior
+
+**Prioridad:** Crítica  
+**Requisitos relacionados:** RF-VOT-03, RF-VOT-08
+
+---
+
+### AC-CON-02: Control de aforo sin sobrepaso
+
+**Fuente del estímulo:** Múltiples estudiantes simultáneos  
+**Estímulo:** Inscripciones concurrentes al último cupo disponible de un evento  
+**Entorno:** Alta concurrencia en inscripción a evento popular  
+**Artefacto:** Módulo de Eventos, Base de datos  
+**Respuesta:** El sistema utiliza transacciones y bloqueos para garantizar que no se supere el aforo máximo  
+**Medida de respuesta:** 0 inscripciones por encima del aforo configurado; control mediante transacciones y restricciones
+
+**Prioridad:** Alta  
+**Requisitos relacionados:** RF-EVE-02
+
+---
+
+### AC-CON-03: Asignación idempotente de puntos
+
+**Fuente del estímulo:** Sistema o solicitudes duplicadas  
+**Estímulo:** Múltiples intentos de asignar puntos por la misma actividad  
+**Entorno:** Procesamiento asíncrono de incentivos  
+**Artefacto:** Módulo de Incentivos, Base de datos  
+**Respuesta:** El sistema utiliza claves de idempotencia para evitar asignaciones duplicadas  
+**Medida de respuesta:** 0 asignaciones duplicadas de puntos por la misma actividad; operaciones idempotentes implementadas
+
+**Prioridad:** Alta  
+**Requisitos relacionados:** RF-INC-01
+
+---
+
+## 6. Disponibilidad y Resiliencia
+
 _(A completar en el siguiente commit)_
