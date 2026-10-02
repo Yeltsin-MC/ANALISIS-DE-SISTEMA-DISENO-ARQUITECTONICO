@@ -218,4 +218,118 @@ El sistema debe manejar correctamente solicitudes concurrentes de emisión de vo
 
 ## 3. Encuestas e Investigación
 
+### RF-ENC-01: Creación y configuración de encuestas
+
+**Descripción:**  
+El sistema debe permitir que docentes/tesistas autorizados creen encuestas académicas definiendo título, descripción, objetivo, preguntas (selección, escala, respuesta abierta), validaciones, segmento objetivo, fechas de inicio y fin, límite de respuestas e incentivos. El sistema debe validar que el usuario tenga rol Docente/Tesista.
+
+**Actor:** ACT-02 (Docente/Tesista)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-ENC-01
+
+---
+
+### RF-ENC-02: Publicación de encuestas
+
+**Descripción:**  
+El sistema debe permitir que docentes/tesistas publiquen encuestas configuradas. El sistema debe validar que la encuesta tenga al menos una pregunta y fechas configuradas correctamente antes de permitir la publicación. El sistema debe cambiar el estado a "Publicada" y hacer visible la encuesta a estudiantes del segmento objetivo.
+
+**Actor:** ACT-02 (Docente/Tesista)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-ENC-02
+
+---
+
+### RF-ENC-03: Respuesta de encuestas con validaciones
+
+**Descripción:**  
+El sistema debe permitir que estudiantes respondan encuestas publicadas dentro del periodo habilitado. El sistema debe aplicar validaciones configuradas por pregunta, verificar límites de respuestas por estudiante, aplicar controles de atención y reglas antifraude, y registrar respuestas con marca de tiempo. El sistema debe impedir respuestas duplicadas cuando esté configurado.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-ENC-03, HU-ENC-05
+
+---
+
+### RF-ENC-04: Consulta y exportación de resultados
+
+**Descripción:**  
+El sistema debe permitir que docentes/tesistas consulten resultados agregados de sus encuestas, incluyendo gráficos para preguntas de selección y escala, respuestas de texto agrupadas, total de respuestas y tasa de participación. El sistema debe permitir exportar resultados en formatos CSV o Excel.
+
+**Actor:** ACT-02 (Docente/Tesista)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-ENC-04
+
+---
+
+### RF-ENC-05: Control de respuestas duplicadas y antifraude
+
+**Descripción:**  
+El sistema debe aplicar límites configurables por usuario y encuesta, validar respuestas duplicadas, aplicar controles de atención para detectar respuestas automáticas, y asignar incentivos solo después de validaciones exitosas. El sistema debe registrar intentos de respuestas no permitidas en auditoría.
+
+**Actor:** Sistema (lógica interna)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-ENC-05
+
+---
+
+## 4. Eventos
+
+### RF-EVE-01: Publicación y configuración de eventos
+
+**Descripción:**  
+El sistema debe permitir que administradores publiquen eventos universitarios (charlas, talleres, congresos) definiendo título, descripción, fecha, hora, lugar, aforo máximo, imagen, configuración de certificado y fecha límite de inscripción. El sistema debe asignar estado "Publicado" al evento.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-EVE-01
+
+---
+
+### RF-EVE-02: Inscripción con control de aforo concurrente
+
+**Descripción:**  
+El sistema debe permitir que estudiantes autenticados se inscriban a eventos con cupos disponibles. El sistema debe controlar concurrencia mediante transacciones para evitar sobrepaso de aforo cuando múltiples estudiantes intenten ocupar los últimos cupos simultáneamente. El sistema debe reducir el contador de cupos disponibles y enviar confirmación.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-EVE-02
+
+---
+
+### RF-EVE-03: Generación de código QR para asistencia
+
+**Descripción:**  
+El sistema debe generar código QR único por inscripción que permita validar la asistencia del estudiante al evento. El código debe contener información cifrada que identifique al estudiante y al evento. El sistema debe permitir que estudiantes consulten su código QR desde el perfil.
+
+**Actor:** Sistema (lógica interna), ACT-01 (Estudiante)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-EVE-03, HU-EVE-04
+
+---
+
+### RF-EVE-04: Validación de asistencia mediante QR
+
+**Descripción:**  
+El sistema debe permitir que administradores escaneen códigos QR de estudiantes en el evento para validar asistencia. El sistema debe validar que el código pertenezca al evento correspondiente, marcar la asistencia como "Asistió", registrar fecha y hora de validación, e impedir validaciones duplicadas.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-EVE-04
+
+---
+
+### RF-EVE-05: Generación de certificados digitales
+
+**Descripción:**  
+El sistema debe generar certificados digitales en formato PDF para estudiantes que asistieron a eventos configurados para otorgar certificado. El certificado debe incluir nombre del estudiante, evento, fecha y código de verificación único. El sistema debe permitir descargar el certificado desde el perfil y registrar la descarga.
+
+**Actor:** ACT-01 (Estudiante)  
+**Prioridad:** Media  
+**Historias Relacionadas:** HU-EVE-05
+
+---
+
+## 5. Comunidad Estudiantil
+
 _(A completar en el siguiente commit)_
