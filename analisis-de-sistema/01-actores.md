@@ -125,4 +125,60 @@ Los actores representan entidades que interactúan con el sistema Campus UNSCH. 
 
 ## B. Sistemas Externos
 
-_(A completar en el siguiente commit)_
+### ACT-06: Padrón Institucional UNSCH
+
+**Tipo:** Sistema Externo  
+**Descripción:** Sistema o servicio institucional que proporciona información oficial sobre estudiantes habilitados. Permite validar el DNI, condición de estudiante activo y datos institucionales durante el registro.
+
+**Responsabilidades:**
+- Proveer información de validación de estudiantes
+- Confirmar condición de estudiante habilitado
+- Proporcionar datos institucionales básicos (código, facultad, escuela)
+- Mantener actualizado el padrón oficial
+
+**Integración con Campus UNSCH:**
+- Validación durante el proceso de registro
+- Verificación de elegibilidad para procesos electorales
+- Consulta de condición de estudiante para encuestas y eventos
+
+**Módulos que lo consumen:**
+- Identidad y Usuarios
+- Votación Electoral
+
+---
+
+### ACT-07: Servicio de Correo Institucional UNSCH
+
+**Tipo:** Sistema Externo  
+**Descripción:** Servidor de correo electrónico institucional utilizado para enviar notificaciones, activaciones de cuenta, recordatorios y comunicaciones oficiales del sistema hacia los usuarios.
+
+**Responsabilidades:**
+- Enviar correos de activación de cuenta
+- Enviar notificaciones de procesos electorales
+- Enviar recordatorios de eventos
+- Enviar alertas administrativas
+
+**Integración con Campus UNSCH:**
+- Notificaciones asíncronas mediante cola de mensajes
+- Confirmación de envío y logs de correo
+- Manejo de errores de entrega
+
+**Módulos que lo consumen:**
+- Identidad y Usuarios
+- Notificaciones
+- Votación Electoral
+- Eventos
+
+---
+
+## Resumen de Actores
+
+| ID | Nombre | Tipo | Rol Principal |
+|----|--------|------|---------------|
+| ACT-01 | Estudiante | Humano | Usuario principal del sistema |
+| ACT-02 | Docente/Tesista | Humano | Creador de encuestas |
+| ACT-03 | Moderador | Humano | Supervisor de comunidad |
+| ACT-04 | Autoridad Electoral | Humano | Gestor de procesos electorales |
+| ACT-05 | Administrador | Humano | Administrador del sistema |
+| ACT-06 | Padrón Institucional | Sistema | Validación de estudiantes |
+| ACT-07 | Correo Institucional | Sistema | Envío de notificaciones |
