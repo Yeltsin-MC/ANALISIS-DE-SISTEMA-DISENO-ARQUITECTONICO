@@ -6,6 +6,7 @@
 **Escuela Profesional:** Ingeniería de Sistemas  
 **Curso:** Arquitectura de Software  
 **Docente:** Ing. Lizbet Jaico Quispe
+
 **Estudiante:** Yeltsin Wilber Muñoz Corichahua  
 
 **Nombre del Sistema:** Campus UNSCH
