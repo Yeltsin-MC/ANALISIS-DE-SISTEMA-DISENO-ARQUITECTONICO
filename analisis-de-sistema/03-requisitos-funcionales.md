@@ -446,4 +446,180 @@ El sistema debe permitir que administradores agreguen, editen y eliminen recompe
 
 ## 7. Administración y Reportes
 
-_(A completar en el siguiente commit)_
+### RF-ADM-01: Panel administrativo centralizado
+
+**Descripción:**  
+El sistema debe proporcionar un panel administrativo centralizado accesible solo para usuarios con rol Administrador. El panel debe mostrar resumen de usuarios activos, procesos en curso, métricas clave, alertas y notificaciones administrativas, y proporcionar navegación hacia módulos de gestión de usuarios, roles, encuestas, eventos, comunidad, incentivos y configuración.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-ADM-01
+
+---
+
+### RF-ADM-02: Gestión administrativa de usuarios
+
+**Descripción:**  
+El sistema debe permitir que administradores gestionen usuarios registrados mediante listado con filtros y búsqueda, visualización de detalles, activación/suspensión de cuentas y eliminación con confirmación. El sistema debe registrar auditoría de todas las acciones administrativas e impedir que un administrador se elimine a sí mismo.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-ADM-02, RF-USR-10
+
+---
+
+### RF-ADM-03: Consulta de auditoría y trazabilidad
+
+**Descripción:**  
+El sistema debe mantener registros de auditoría de operaciones críticas incluyendo eventos de creación, modificación, eliminación, intentos fallidos de autenticación y accesos administrativos. El sistema debe permitir consulta de auditoría con filtros por fecha, usuario y tipo de acción. El sistema NO debe permitir modificar ni eliminar registros de auditoría. El sistema debe permitir exportar auditoría para revisión externa.
+
+**Actor:** ACT-05 (Administrador), ACT-04 (Autoridad Electoral)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-ADM-03
+
+---
+
+### RF-ADM-04: Configuración de parámetros del sistema
+
+**Descripción:**  
+El sistema debe permitir que administradores configuren parámetros generales, límites, políticas de seguridad y notificaciones automáticas. El sistema debe validar valores ingresados antes de aplicar cambios, registrar auditoría de cambios de configuración y aplicar cambios de forma controlada.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Media  
+**Historias Relacionadas:** HU-ADM-04
+
+---
+
+### RF-ADM-05: Gestión de respaldos
+
+**Descripción:**  
+El sistema debe permitir que administradores programen respaldos automáticos, realicen respaldos manuales y restauren desde respaldos específicos. El sistema debe validar integridad de respaldos, mostrar historial de respaldos exitosos y fallidos, y registrar todas las operaciones de respaldo y restauración.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-ADM-05
+
+---
+
+### RF-REP-01: Dashboard de participación e indicadores
+
+**Descripción:**  
+El sistema debe proporcionar dashboards interactivos con indicadores de usuarios activos por periodo, participación en votaciones, encuestas y eventos, actividad de la comunidad, y puntos asignados y canjeados. Los dashboards deben permitir filtros por fecha y actualizarse en tiempo razonable.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Media  
+**Historias Relacionadas:** HU-REP-01
+
+---
+
+### RF-REP-02: Reportes de encuestas
+
+**Descripción:**  
+El sistema debe generar reportes agregados de resultados de encuestas con estadísticas descriptivas, gráficos y tablas. El sistema debe permitir exportar en formatos CSV, Excel o PDF. El sistema NO debe revelar identidad de estudiantes (datos anonimizados).
+
+**Actor:** ACT-02 (Docente/Tesista)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-REP-02
+
+---
+
+### RF-REP-03: Reportes electorales oficiales
+
+**Descripción:**  
+El sistema debe generar reportes oficiales de procesos electorales con participación electoral agregada, votos por opción sin revelar identidad de votantes, auditoría de eventos críticos del proceso, fecha, hora y padrón utilizado. El sistema debe permitir exportar reporte oficial para documentación.
+
+**Actor:** ACT-04 (Autoridad Electoral)  
+**Prioridad:** Alta  
+**Historias Relacionadas:** HU-REP-03
+
+---
+
+### RF-REP-04: Reportes de eventos
+
+**Descripción:**  
+El sistema debe generar reportes de eventos realizados mostrando listado por periodo, inscritos vs asistentes reales, tasa de ocupación y certificados generados. El sistema debe permitir exportar reporte en formato tabular.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Media  
+**Historias Relacionadas:** HU-REP-04
+
+---
+
+### RF-REP-05: Indicadores de rendimiento y observabilidad
+
+**Descripción:**  
+El sistema debe exponer indicadores técnicos de rendimiento incluyendo solicitudes por segundo, latencia promedio de operaciones críticas, tasa de errores, y uso de recursos (CPU, memoria, conexiones a BD). El sistema debe integrarse con herramientas de observabilidad (Prometheus/Grafana) y permitir configuración de alertas ante anomalías.
+
+**Actor:** ACT-05 (Administrador)  
+**Prioridad:** Media  
+**Historias Relacionadas:** HU-REP-05
+
+---
+
+## Resumen de Requisitos Funcionales
+
+| Dominio | Cantidad de Requisitos |
+|---------|------------------------|
+| Identidad y Usuarios | 10 |
+| Votación Electoral | 8 |
+| Encuestas e Investigación | 5 |
+| Eventos | 5 |
+| Comunidad Estudiantil | 5 |
+| Incentivos y Puntos | 5 |
+| Administración | 5 |
+| Reportes y Análisis | 5 |
+| **Total** | **48** |
+
+---
+
+## Matriz de Trazabilidad: Historias → Requisitos
+
+| Historia de Usuario | Requisitos Funcionales Derivados |
+|---------------------|-----------------------------------|
+| HU-USR-01 | RF-USR-01 |
+| HU-USR-02 | RF-USR-02 |
+| HU-USR-03 | RF-USR-03 |
+| HU-USR-04 | RF-USR-04 |
+| HU-USR-05 | RF-USR-05 |
+| HU-USR-06 | RF-USR-06 |
+| HU-USR-07 | RF-USR-07 |
+| HU-USR-08 | RF-USR-08 |
+| HU-USR-09 | RF-USR-09 |
+| HU-VOT-01 | RF-VOT-01 |
+| HU-VOT-02 | RF-VOT-02 |
+| HU-VOT-03 | RF-VOT-03, RF-VOT-04 |
+| HU-VOT-04 | RF-VOT-05 |
+| HU-VOT-05 | RF-VOT-06 |
+| HU-VOT-06 | RF-VOT-04 |
+| HU-VOT-07 | RF-VOT-07 |
+| HU-VOT-08 | RF-VOT-03, RF-VOT-08 |
+| HU-ENC-01 | RF-ENC-01 |
+| HU-ENC-02 | RF-ENC-02 |
+| HU-ENC-03 | RF-ENC-03 |
+| HU-ENC-04 | RF-ENC-04 |
+| HU-ENC-05 | RF-ENC-05 |
+| HU-EVE-01 | RF-EVE-01 |
+| HU-EVE-02 | RF-EVE-02 |
+| HU-EVE-03 | RF-EVE-03 |
+| HU-EVE-04 | RF-EVE-03, RF-EVE-04 |
+| HU-EVE-05 | RF-EVE-05 |
+| HU-COM-01 | RF-COM-01 |
+| HU-COM-02 | RF-COM-02 |
+| HU-COM-03 | RF-COM-03 |
+| HU-COM-04 | RF-COM-04 |
+| HU-COM-05 | RF-COM-05 |
+| HU-INC-01 | RF-INC-01 |
+| HU-INC-02 | RF-INC-02 |
+| HU-INC-03 | RF-INC-03 |
+| HU-INC-04 | RF-INC-04 |
+| HU-INC-05 | RF-INC-05 |
+| HU-ADM-01 | RF-ADM-01 |
+| HU-ADM-02 | RF-ADM-02, RF-USR-10 |
+| HU-ADM-03 | RF-ADM-03 |
+| HU-ADM-04 | RF-ADM-04 |
+| HU-ADM-05 | RF-ADM-05 |
+| HU-REP-01 | RF-REP-01 |
+| HU-REP-02 | RF-REP-02 |
+| HU-REP-03 | RF-REP-03 |
+| HU-REP-04 | RF-REP-04 |
+| HU-REP-05 | RF-REP-05 |
