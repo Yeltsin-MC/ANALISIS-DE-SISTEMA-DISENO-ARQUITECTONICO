@@ -471,3 +471,65 @@ graph TB
 
 **Descripción:**  
 Este diagrama muestra los 9 módulos funcionales de Campus UNSCH y sus dependencias principales. El módulo de Identidad es central pues todos los demás módulos dependen de él para verificación de usuarios. El módulo Electoral (rojo claro) es el candidato principal para extracción futura como microservicio debido a su criticidad.
+
+---
+
+### 13.2. Diagrama de Arquitectura Lógica
+
+```mermaid
+graph TB
+    subgraph "Capa de Presentación"
+        WEB[Aplicación Web<br/>React/Next.js<br/>Responsive]
+    end
+    
+    subgraph "Balanceo y Enrutamiento"
+        LB[Load Balancer<br/>Nginx/Ingress]
+    end
+    
+    subgraph "Capa de Aplicación - Múltiples Instancias"
+        BE1[Backend Instance 1<br/>Node.js/NestJS]
+        BE2[Backend Instance 2<br/>Node.js/NestJS]
+        BEN[Backend Instance N<br/>Node.js/NestJS]
+    end
+    
+    subgraph "Capa de Servicios (Módulos)"
+        MOD[Identidad | Electoral | Encuestas<br/>Eventos | Comunidad | Incentivos<br/>Notificaciones | Auditoría | Admin]
+    end
+    
+    subgraph "Capa de Datos"
+        PG[(PostgreSQL<br/>BD Transaccional)]
+        RD[(Redis<br/>Caché/Sesiones)]
+        MQ[RabbitMQ<br/>Cola Mensajes]
+    end
+    
+    subgraph "Procesamiento Asíncrono"
+        WORK[Workers<br/>Correos, Certificados]
+    end
+    
+    WEB -->|HTTPS| LB
+    LB --> BE1
+    LB --> BE2
+    LB --> BEN
+    BE1 --> MOD
+    BE2 --> MOD
+    BEN --> MOD
+    MOD --> PG
+    MOD --> RD
+    MOD --> MQ
+    MQ --> WORK
+    WORK --> PG
+    
+    style WEB fill:#e1f5ff
+    style LB fill:#fff4e1
+    style BE1 fill:#e1ffe1
+    style BE2 fill:#e1ffe1
+    style BEN fill:#e1ffe1
+    style MOD fill:#ffe1e1
+    style PG fill:#f0e1ff
+    style RD fill:#ffe1f5
+    style MQ fill:#e1ffe1
+    style WORK fill:#fff4e1
+```
+
+**Descripción:**  
+Este diagrama ilustra las capas lógicas de la arquitectura. El frontend web se comunica mediante HTTPS con el balanceador de carga, que distribuye las solicitudes entre múltiples instancias del backend. Cada instancia del backend contiene todos los módulos funcionales (monolito modular) y accede a PostgreSQL para operaciones transaccionales, Redis para caché/sesiones, y RabbitMQ para tareas asíncronas procesadas por workers.
