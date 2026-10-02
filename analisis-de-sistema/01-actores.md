@@ -217,3 +217,53 @@ Los actores representan entidades que interactúan con el sistema Campus UNSCH. 
 2. Se encola mensaje en sistema de mensajería
 3. **Correo Institucional** (ACT-07) envía notificación asíncrona
 4. **Estudiante** (ACT-01) recibe notificación en su correo institucional
+
+---
+
+## Diagrama de Actores y Contexto del Sistema
+
+El siguiente diagrama muestra las interacciones generales entre los actores y Campus UNSCH:
+
+```mermaid
+graph TB
+    subgraph "Actores Humanos"
+        EST[ACT-01<br/>Estudiante]
+        DOC[ACT-02<br/>Docente/Tesista]
+        MOD[ACT-03<br/>Moderador]
+        AUT[ACT-04<br/>Autoridad Electoral]
+        ADM[ACT-05<br/>Administrador]
+    end
+    
+    subgraph "Campus UNSCH"
+        SYS[Sistema<br/>Campus UNSCH]
+    end
+    
+    subgraph "Sistemas Externos"
+        PAD[ACT-06<br/>Padrón Institucional]
+        MAIL[ACT-07<br/>Correo Institucional]
+    end
+    
+    EST -->|Participa en votaciones<br/>Responde encuestas<br/>Se inscribe a eventos<br/>Interactúa en comunidad| SYS
+    DOC -->|Crea encuestas<br/>Consulta resultados| SYS
+    MOD -->|Modera contenido<br/>Revisa reportes| SYS
+    AUT -->|Gestiona procesos electorales<br/>Consulta auditoría| SYS
+    ADM -->|Administra sistema<br/>Configura parámetros<br/>Supervisa operaciones| SYS
+    
+    SYS -->|Valida estudiantes<br/>Consulta padrón| PAD
+    SYS -->|Envía notificaciones<br/>Correos de activación| MAIL
+    
+    style EST fill:#e1f5ff
+    style DOC fill:#e1f5ff
+    style MOD fill:#e1f5ff
+    style AUT fill:#e1f5ff
+    style ADM fill:#e1f5ff
+    style SYS fill:#fff4e1
+    style PAD fill:#ffe1e1
+    style MAIL fill:#ffe1e1
+```
+
+**Descripción del diagrama:**
+- Los actores humanos (azul claro) interactúan directamente con Campus UNSCH
+- El sistema (amarillo claro) actúa como núcleo central de todas las operaciones
+- Los sistemas externos (rojo claro) proveen servicios de validación y notificación
+- Las flechas indican las principales interacciones entre actores y sistema
