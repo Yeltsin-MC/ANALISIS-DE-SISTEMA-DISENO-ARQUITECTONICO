@@ -182,3 +182,38 @@ Los actores representan entidades que interactúan con el sistema Campus UNSCH. 
 | ACT-05 | Administrador | Humano | Administrador del sistema |
 | ACT-06 | Padrón Institucional | Sistema | Validación de estudiantes |
 | ACT-07 | Correo Institucional | Sistema | Envío de notificaciones |
+
+---
+
+## Interacciones entre Actores
+
+### Flujo de Validación Institucional
+1. **Estudiante** (ACT-01) se registra en Campus UNSCH
+2. El sistema consulta **Padrón Institucional** (ACT-06) para validar identidad y condición
+3. El sistema envía correo de activación mediante **Correo Institucional** (ACT-07)
+4. **Estudiante** activa su cuenta y accede a la plataforma
+
+### Flujo de Proceso Electoral
+1. **Autoridad Electoral** (ACT-04) crea y configura proceso electoral
+2. El sistema verifica padrón habilitado con **Padrón Institucional** (ACT-06)
+3. **Estudiante** (ACT-01) emite voto durante periodo habilitado
+4. **Autoridad Electoral** cierra proceso y habilita resultados
+5. **Administrador** (ACT-05) supervisa auditoría del proceso
+
+### Flujo de Encuestas
+1. **Docente/Tesista** (ACT-02) crea encuesta académica
+2. **Estudiante** (ACT-01) responde encuesta y obtiene incentivos
+3. **Administrador** (ACT-05) supervisa configuración de incentivos
+4. **Docente/Tesista** consulta resultados agregados
+
+### Flujo de Moderación Comunitaria
+1. **Estudiante** (ACT-01) publica contenido en comunidad
+2. Otros **Estudiantes** reportan contenido inapropiado
+3. **Moderador** (ACT-03) revisa reporte y aplica medidas
+4. **Administrador** (ACT-05) supervisa acciones de moderación y trazabilidad
+
+### Flujo de Notificaciones
+1. El sistema genera evento que requiere notificación
+2. Se encola mensaje en sistema de mensajería
+3. **Correo Institucional** (ACT-07) envía notificación asíncrona
+4. **Estudiante** (ACT-01) recibe notificación en su correo institucional
