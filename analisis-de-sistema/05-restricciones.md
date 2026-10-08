@@ -139,7 +139,7 @@ El sistema DEBE implementar monitoreo de métricas y observabilidad utilizando P
 ### RES-13: Pruebas de carga con k6
 
 **Descripción:**  
-El sistema DEBE ser validado mediante pruebas de carga progresivas utilizando k6, simulando el escenario objetivo de hasta 15,000 usuarios concurrentes para validar rendimiento y escalabilidad.
+El sistema DEBE ser validado mediante pruebas de carga progresivas utilizando k6, simulando el escenario objetivo de hasta 2,500 usuarios concurrentes para validar rendimiento y escalabilidad.
 
 **Origen:** Propuesta del proyecto  
 **Impacto:** Estrategia de pruebas; validación de atributos de calidad

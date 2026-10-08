@@ -354,7 +354,7 @@ UNIQUE (proceso_id, estudiante_id);
 - ✓ Simplicidad operacional
 - ✓ Transacciones ACID nativas
 - ✓ Escalamiento horizontal
-- Límite: ~10,000 - 15,000 usuarios concurrentes
+- Límite: Soporta el escenario objetivo de 2,500 usuarios concurrentes
 
 ### Fase 2: Extracción de Electoral (Si se justifica)
 - Microservicio Electoral independiente
@@ -403,7 +403,7 @@ UNIQUE (proceso_id, estudiante_id);
 
 La arquitectura inicial de Campus UNSCH como **monolito modular escalable** balancea adecuadamente:
 - **Simplicidad:** Operación y desarrollo menos complejos
-- **Rendimiento:** Capacidad de manejar escenario objetivo de 15,000 usuarios concurrentes
+- **Rendimiento:** Capacidad de manejar escenario objetivo de 2,500 usuarios concurrentes
 - **Consistencia:** Transacciones ACID garantizan voto único y control de aforo
 - **Seguridad:** Separación arquitectónica protege privacidad del voto
 - **Evolución:** Límites claros permiten extracción futura de módulos críticos

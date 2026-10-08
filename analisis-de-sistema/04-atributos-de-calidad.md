@@ -5,7 +5,7 @@
 Los atributos de calidad representan características no funcionales que el sistema debe satisfacer para cumplir con sus objetivos arquitectónicos. Este documento define atributos de calidad mediante escenarios estructurados que incluyen fuente del estímulo, estímulo, entorno, artefacto afectado, respuesta del sistema y medida de respuesta.
 
 **Nota importante sobre concurrencia:**  
-La propuesta del proyecto Campus UNSCH establece como **escenario objetivo de dimensionamiento y prueba** el manejo de hasta **15,000 usuarios concurrentes** durante procesos masivos. Este valor representa un objetivo arquitectónico que debe validarse mediante pruebas de carga (k6), NO una medición actual. Los atributos de calidad definidos a continuación consideran este escenario objetivo como referencia para diseño y validación.
+La propuesta del proyecto Campus UNSCH establece como **escenario objetivo de dimensionamiento y prueba** el manejo de hasta **2,500 usuarios concurrentes** durante procesos masivos. Este valor representa un objetivo arquitectónico que debe validarse mediante pruebas de carga (k6), NO una medición actual. La UNSCH cuenta con aproximadamente 15,000 estudiantes, pero el uso normal estimado es de 200 a 500 usuarios diarios, con picos de hasta 2,500 concurrentes durante elecciones. Los atributos de calidad definidos a continuación consideran este escenario objetivo como referencia para diseño y validación.
 
 ---
 
@@ -29,7 +29,7 @@ La propuesta del proyecto Campus UNSCH establece como **escenario objetivo de di
 
 **Fuente del estímulo:** Estudiante habilitado  
 **Estímulo:** Solicitud de emisión de voto durante proceso electoral abierto  
-**Entorno:** Alta concurrencia durante pico electoral (escenario objetivo: 15,000 usuarios concurrentes)  
+**Entorno:** Alta concurrencia durante pico electoral (escenario objetivo: 2,500 usuarios concurrentes)  
 **Artefacto:** Módulo Electoral  
 **Respuesta:** El sistema valida elegibilidad, registra voto mediante transacción y confirma  
 **Medida de respuesta:** Tiempo de respuesta ≤ 2 segundos en el percentil 95 bajo escenario de alta concurrencia
@@ -57,10 +57,10 @@ La propuesta del proyecto Campus UNSCH establece como **escenario objetivo de di
 
 **Fuente del estímulo:** Múltiples usuarios simultáneos  
 **Estímulo:** Solicitudes HTTP concurrentes a diferentes endpoints  
-**Entorno:** Escenario objetivo de alta concurrencia (15,000 usuarios concurrentes)  
+**Entorno:** Escenario objetivo de alta concurrencia (2,500 usuarios concurrentes)  
 **Artefacto:** Backend (Node.js/NestJS), Balanceador de carga  
 **Respuesta:** El sistema procesa solicitudes distribuidas entre instancias  
-**Medida de respuesta:** Throughput ≥ 1,500 solicitudes/segundo con múltiples instancias del backend
+**Medida de respuesta:** Throughput ≥ 250 solicitudes/segundo con múltiples instancias del backend
 
 **Prioridad:** Alta  
 **Requisitos relacionados:** Arquitectura general
@@ -87,7 +87,7 @@ La propuesta del proyecto Campus UNSCH establece como **escenario objetivo de di
 
 **Fuente del estímulo:** Múltiples instancias del backend  
 **Estímulo:** Incremento de solicitudes concurrentes a base de datos  
-**Entorno:** Escenario objetivo de alta concurrencia (15,000 usuarios)  
+**Entorno:** Escenario objetivo de alta concurrencia (2,500 usuarios)  
 **Artefacto:** Pool de conexiones PostgreSQL  
 **Respuesta:** El sistema gestiona pool de conexiones eficientemente entre instancias  
 **Medida de respuesta:** El sistema mantiene latencia de consultas ≤ 100 ms en percentil 95 con pool adecuadamente dimensionado

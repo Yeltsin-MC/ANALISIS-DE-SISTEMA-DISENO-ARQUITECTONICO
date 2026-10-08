@@ -26,7 +26,7 @@ La participación estudiantil en la UNSCH se encuentra fragmentada en múltiples
 
 ## Objetivo
 
-Diseñar y construir una arquitectura de software escalable y elástica que permita soportar hasta 15,000 usuarios concurrentes durante procesos masivos, garantizando consistencia, seguridad, disponibilidad y auditabilidad en todas las operaciones críticas del sistema.
+Diseñar y construir una arquitectura de software escalable y elástica que permita soportar hasta 2,500 usuarios concurrentes durante procesos masivos, garantizando consistencia, seguridad, disponibilidad y auditabilidad en todas las operaciones críticas del sistema.
 
 ## Estructura del Repositorio
 
@@ -105,7 +105,7 @@ Documenta **29 atributos de calidad** mediante escenarios estructurados en 9 cat
 - **Observabilidad:** Métricas con Prometheus/Grafana
 - **Modificabilidad:** Separación modular, evolución arquitectónica
 
-**Nota importante:** El escenario de 15,000 usuarios concurrentes es un **objetivo de dimensionamiento y prueba**, NO una medición actual.
+**Nota importante:** El escenario de 2,500 usuarios concurrentes es un **objetivo de dimensionamiento y prueba** para procesos masivos (como elecciones), NO una medición actual. La UNSCH cuenta con aproximadamente 15,000 estudiantes, pero el uso normal estimado es de 200-500 usuarios diarios.
 
 ---
 
@@ -186,7 +186,7 @@ Incluye matriz de trazabilidad: Driver → Requisitos → Atributos → Decision
 | Orquestación | Kubernetes | Escalado automático, health checks, resiliencia |
 | Balanceo | Nginx / Ingress | Distribución de carga, enrutamiento |
 | Monitoreo | Prometheus / Grafana | Métricas, dashboards, alertas |
-| Pruebas de Carga | k6 | Validación del escenario objetivo (15,000 concurrentes) |
+| Pruebas de Carga | k6 | Validación del escenario objetivo (2,500 concurrentes) |
 
 #### Diagramas Arquitectónicos
 
@@ -243,9 +243,9 @@ El documento de arquitectura incluye 4 diagramas Mermaid:
 
 ## Escenario Objetivo de Validación
 
-- **15,000 usuarios concurrentes** durante procesos masivos
+- **2,500 usuarios concurrentes** durante procesos masivos
 - **Latencia p95 ≤ 2 segundos** en operaciones críticas
-- **Throughput ≥ 1,500 solicitudes/segundo**
+- **Throughput ≥ 250 solicitudes/segundo**
 - **Disponibilidad ≥ 99.5%** mensual
 
 Estos objetivos deben validarse mediante pruebas de carga con k6.

@@ -12,12 +12,12 @@ Este documento identifica los drivers arquitectónicos principales de Campus UNS
 
 ### Descripción
 
-El sistema debe soportar un **escenario objetivo de hasta 15,000 usuarios concurrentes** durante procesos masivos como votaciones electorales o inscripciones a eventos populares, manteniendo tiempos de respuesta aceptables (≤ 2 segundos en percentil 95 para operaciones críticas).
+El sistema debe soportar un **escenario objetivo de hasta 2,500 usuarios concurrentes** durante procesos masivos como votaciones electorales o inscripciones a eventos populares, manteniendo tiempos de respuesta aceptables (≤ 2 segundos en percentil 95 para operaciones críticas).
 
 ### Origen
 
-- **Propuesta del proyecto:** Escenario objetivo de 15,000 usuarios concurrentes
-- **Contexto real:** Población estudiantil de UNSCH que puede generar picos simultáneos durante procesos críticos
+- **Propuesta del proyecto:** Escenario objetivo de 2,500 usuarios concurrentes
+- **Contexto real:** Población estudiantil de UNSCH de aproximadamente 15,000 estudiantes; uso normal de 200-500 usuarios diarios con picos de hasta 2,500 concurrentes durante procesos críticos
 
 ### Importancia
 
@@ -99,7 +99,7 @@ El sistema debe escalar horizontalmente para responder a incrementos de carga y 
 ### Origen
 
 - **Propuesta del proyecto:** Arquitectura escalable y elástica
-- **Escenario objetivo:** 15,000 usuarios concurrentes durante picos; carga moderada en operación normal
+- **Escenario objetivo:** 2,500 usuarios concurrentes durante picos; carga moderada en operación normal (200-500 usuarios diarios)
 
 ### Importancia
 
