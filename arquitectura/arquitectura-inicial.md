@@ -473,52 +473,54 @@ graph TB
 Este diagrama muestra los 9 módulos funcionales de Campus UNSCH y sus dependencias principales. El módulo de Identidad es central pues todos los demás módulos dependen de él para verificación de usuarios. El módulo Electoral (rojo claro) es el candidato principal para extracción futura como microservicio debido a su criticidad.
 
 ---
-
 ### 13.2. Diagrama de Arquitectura Lógica
 
 ```mermaid
-graph TB
-    subgraph "Capa de Presentación"
-        WEB[Aplicación Web<br/>React/Next.js<br/>Responsive]
+flowchart TB
+    subgraph PRES["Capa de Presentación"]
+        WEB["Aplicación Web<br/>React / Next.js<br/>Responsive"]
     end
-    
-    subgraph "Balanceo y Enrutamiento"
-        LB[Load Balancer<br/>Nginx/Ingress]
+
+    subgraph BAL["Balanceo y Enrutamiento"]
+        LB["Load Balancer<br/>Nginx / Ingress"]
     end
-    
-    subgraph "Capa de Aplicación - Múltiples Instancias"
-        BE1[Backend Instance 1<br/>Node.js/NestJS]
-        BE2[Backend Instance 2<br/>Node.js/NestJS]
-        BEN[Backend Instance N<br/>Node.js/NestJS]
+
+    subgraph APP["Capa de Aplicación - Múltiples Instancias"]
+        BE1["Backend Instance 1<br/>Node.js / NestJS"]
+        BE2["Backend Instance 2<br/>Node.js / NestJS"]
+        BEN["Backend Instance N<br/>Node.js / NestJS"]
     end
-    
-    subgraph "Capa de Servicios (Módulos)"
-        MOD[Identidad | Electoral | Encuestas<br/>Eventos | Comunidad | Incentivos<br/>Notificaciones | Auditoría | Admin]
+
+    subgraph SERV["Capa de Servicios - Módulos"]
+        MOD["Identidad · Electoral · Encuestas<br/>Eventos · Comunidad · Incentivos<br/>Notificaciones · Auditoría · Administración"]
     end
-    
-    subgraph "Capa de Datos"
-        PG[(PostgreSQL<br/>BD Transaccional)]
-        RD[(Redis<br/>Caché/Sesiones)]
-        MQ[RabbitMQ<br/>Cola Mensajes]
+
+    subgraph DATOS["Capa de Datos"]
+        PG[("PostgreSQL<br/>BD Transaccional")]
+        RD[("Redis<br/>Caché / Sesiones")]
+        MQ["RabbitMQ<br/>Cola de Mensajes"]
     end
-    
-    subgraph "Procesamiento Asíncrono"
-        WORK[Workers<br/>Correos, Certificados]
+
+    subgraph ASYNC["Procesamiento Asíncrono"]
+        WORK["Workers<br/>Correos · Certificados"]
     end
-    
+
     WEB -->|HTTPS| LB
     LB --> BE1
     LB --> BE2
     LB --> BEN
+
     BE1 --> MOD
     BE2 --> MOD
     BEN --> MOD
+
     MOD --> PG
     MOD --> RD
     MOD --> MQ
+
     MQ --> WORK
     WORK --> PG
-    
+
     style WEB fill:#e1f5ff
     style LB fill:#fff4e1
     style BE1 fill:#e1ffe1
@@ -532,67 +534,78 @@ graph TB
 ```
 
 **Descripción:**  
-Este diagrama ilustra las capas lógicas de la arquitectura. El frontend web se comunica mediante HTTPS con el balanceador de carga, que distribuye las solicitudes entre múltiples instancias del backend. Cada instancia del backend contiene todos los módulos funcionales (monolito modular) y accede a PostgreSQL para operaciones transaccionales, Redis para caché/sesiones, y RabbitMQ para tareas asíncronas procesadas por workers.
+Este diagrama ilustra las capas lógicas de la arquitectura. El frontend web se comunica mediante HTTPS con el balanceador de carga, que distribuye las solicitudes entre múltiples instancias del backend. Cada instancia del backend contiene todos los módulos funcionales del monolito modular y accede a PostgreSQL para operaciones transaccionales, Redis para caché y sesiones, y RabbitMQ para tareas asíncronas procesadas por workers.
 
 ---
 
-### 13.3. Diagrama de Despliegue Escalable (Kubernetes)
+### 13.3. Diagrama de Despliegue Escalable - Kubernetes
 
 ```mermaid
-graph TB
-    subgraph "Kubernetes Cluster"
-        subgraph "Ingress"
-            ING[Nginx Ingress<br/>Controller]
+flowchart TB
+    USERS["Usuarios"]
+
+    subgraph K8S["Kubernetes Cluster"]
+
+        subgraph INGRESS["Ingress"]
+            ING["Nginx Ingress Controller"]
         end
-        
-        subgraph "Backend Deployment (2-10 réplicas)"
-            POD1[Backend Pod 1]
-            POD2[Backend Pod 2]
-            PODN[Backend Pod N]
+
+        subgraph BACKEND["Backend Deployment - 2 a 10 réplicas"]
+            POD1["Backend Pod 1"]
+            POD2["Backend Pod 2"]
+            PODN["Backend Pod N"]
         end
-        
-        subgraph "Services"
-            PGSVC[PostgreSQL<br/>Service]
-            RDSVC[Redis<br/>Service]
-            MQSVC[RabbitMQ<br/>Service]
+
+        subgraph SERVICES["Services"]
+            PGSVC["PostgreSQL Service"]
+            RDSVC["Redis Service"]
+            MQSVC["RabbitMQ Service"]
         end
-        
-        subgraph "Persistent Storage"
-            PV[(Persistent<br/>Volume<br/>PostgreSQL)]
+
+        subgraph STORAGE["Persistent Storage"]
+            PV[("Persistent Volume<br/>PostgreSQL")]
         end
-        
-        subgraph "Worker Deployment"
-            WORK1[Worker Pod 1]
-            WORK2[Worker Pod 2]
+
+        subgraph WORKERS["Worker Deployment"]
+            WORK1["Worker Pod 1"]
+            WORK2["Worker Pod 2"]
         end
-        
-        subgraph "Monitoring"
-            PROM[Prometheus]
-            GRAF[Grafana]
+
+        subgraph MONITOR["Monitoring"]
+            PROM["Prometheus"]
+            GRAF["Grafana"]
         end
     end
-    
-    USERS[Usuarios] -->|HTTPS| ING
+
+    USERS -->|HTTPS| ING
+
     ING --> POD1
     ING --> POD2
     ING --> PODN
+
     POD1 --> PGSVC
     POD2 --> PGSVC
     PODN --> PGSVC
+
     POD1 --> RDSVC
     POD2 --> RDSVC
     PODN --> RDSVC
+
     POD1 --> MQSVC
     POD2 --> MQSVC
     PODN --> MQSVC
+
     PGSVC --> PV
+
     MQSVC --> WORK1
     MQSVC --> WORK2
-    POD1 -.->|métricas| PROM
-    POD2 -.->|métricas| PROM
-    PODN -.->|métricas| PROM
+
+    POD1 -.->|Métricas| PROM
+    POD2 -.->|Métricas| PROM
+    PODN -.->|Métricas| PROM
+
     PROM --> GRAF
-    
+
     style ING fill:#fff4e1
     style POD1 fill:#e1ffe1
     style POD2 fill:#e1ffe1
@@ -608,7 +621,7 @@ graph TB
 ```
 
 **Descripción:**  
-Este diagrama muestra el despliegue en Kubernetes. Los usuarios acceden a través del Ingress Controller, que enruta hacia múltiples pods del backend (escalables horizontalmente mediante HPA). Los pods acceden a PostgreSQL, Redis y RabbitMQ a través de Services. Prometheus recolecta métricas de todos los pods y Grafana las visualiza. El almacenamiento persistente de PostgreSQL está respaldado por Persistent Volumes.
+Este diagrama muestra el despliegue en Kubernetes. Los usuarios acceden a través del Ingress Controller, que enruta las solicitudes hacia múltiples pods del backend escalables horizontalmente mediante HPA. Los pods acceden a PostgreSQL, Redis y RabbitMQ mediante Services. Prometheus recolecta métricas de las instancias y Grafana permite su visualización. PostgreSQL utiliza almacenamiento persistente mediante un Persistent Volume.
 
 ---
 
@@ -623,43 +636,43 @@ sequenceDiagram
     participant ELEC as Módulo Electoral
     participant DB as PostgreSQL
     participant AUD as Auditoría
-    
+
     E->>FE: Accede a proceso electoral abierto
-    FE->>BE: GET /procesos/{id}
+    FE->>BE: GET /procesos/id
     BE->>ELEC: Consulta proceso
-    ELEC->>DB: SELECT proceso WHERE id=X
-    DB-->>ELEC: Datos del proceso (estado=ABIERTO)
+    ELEC->>DB: Buscar proceso electoral
+    DB-->>ELEC: Datos del proceso - estado abierto
     ELEC-->>BE: Proceso habilitado
     BE-->>FE: Listas disponibles
     FE->>E: Muestra opciones de voto
-    
+
     E->>FE: Selecciona lista y confirma voto
-    FE->>BE: POST /votos {proceso_id, lista_id}
-    BE->>AUTH: Valida sesión y obtiene estudiante_id
+    FE->>BE: POST /votos
+    BE->>AUTH: Validar sesión del estudiante
     AUTH-->>BE: Estudiante autenticado
-    BE->>ELEC: Registrar voto (estudiante_id, proceso_id, lista_id)
-    
+    BE->>ELEC: Solicitar registro del voto
+
     ELEC->>DB: BEGIN TRANSACTION
-    ELEC->>DB: SELECT participacion WHERE estudiante=X AND proceso=Y
-    
-    alt Ya votó anteriormente
-        DB-->>ELEC: Registro encontrado
+    ELEC->>DB: Verificar participación previa
+
+    alt El estudiante ya votó
+        DB-->>ELEC: Participación encontrada
         ELEC->>DB: ROLLBACK
-        ELEC-->>BE: Error: Ya votó en este proceso
+        ELEC-->>BE: Error - voto ya registrado
         BE-->>FE: HTTP 409 Conflict
-        FE->>E: Mensaje: Ya emitiste tu voto
-    else Primera vez votando
-        DB-->>ELEC: No hay registro
-        ELEC->>DB: INSERT INTO votos (proceso_id, lista_id, timestamp)
-        ELEC->>DB: INSERT INTO participacion (proceso_id, estudiante_id, timestamp)
-        ELEC->>DB: COMMIT TRANSACTION
-        DB-->>ELEC: Voto registrado
-        ELEC->>AUD: Registrar evento (proceso_id, timestamp)
+        FE->>E: Ya emitiste tu voto
+    else Primera participación
+        DB-->>ELEC: Sin participación previa
+        ELEC->>DB: INSERT voto
+        ELEC->>DB: INSERT participación
+        ELEC->>DB: COMMIT
+        DB-->>ELEC: Operación confirmada
+        ELEC->>AUD: Registrar evento de auditoría
         ELEC-->>BE: Voto confirmado
         BE-->>FE: HTTP 201 Created
-        FE->>E: Confirmación: Voto registrado exitosamente
+        FE->>E: Voto registrado exitosamente
     end
 ```
 
 **Descripción:**  
-Este diagrama de secuencia ilustra el flujo crítico de emisión de voto. El sistema verifica que el estudiante esté autenticado, que el proceso esté abierto, y que NO haya votado previamente. La transacción garantiza que si hay concurrencia (dos solicitudes simultáneas del mismo estudiante), solo una será exitosa. La separación entre las tablas `votos` y `participacion` garantiza la privacidad del voto.
+Este diagrama de secuencia representa el flujo crítico de emisión de voto. El sistema verifica que el estudiante esté autenticado, que el proceso electoral se encuentre disponible y que el estudiante no haya participado previamente. La operación se ejecuta dentro de una transacción para mantener la consistencia ante solicitudes concurrentes. La separación entre el registro del voto y el registro de participación contribuye a preservar la privacidad del proceso electoral.
